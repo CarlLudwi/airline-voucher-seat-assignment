@@ -1,0 +1,21 @@
+services:
+  backend:
+    build: ./backend
+    container_name: airline-backend
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./backend/vouchers.db:/app/vouchers.db
+    environment:
+      - APP_PORT=8080
+      - DB_PATH=/app/vouchers.db
+
+  frontend:
+    build: ./frontend
+    container_name: airline-frontend
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+    environment:
+      - VITE_API_BASE_URL=http://localhost:8080
